@@ -13,7 +13,10 @@ export const answer = (question) => {
   if (!isNaN(question)) return Number(question);
   
   // invalid words
-  if (!/(plus|minus|divided by|multiplied by)/.test(question)) throw new Error('Unknown operation');
+  const symbols = new Set(['plus', 'minus', 'divided', 'multiplied', 'by']);
+  question.split(' ').forEach((value, index) => {
+    if (isNaN(value) && !symbols.has(value)) throw new Error('Unknown operation');
+  });
   
   // array: number symbol number etc
   let matches = question.match(/(-?\d+|plus|minus|divided by|multiplied by)/g);
